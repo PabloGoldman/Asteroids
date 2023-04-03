@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] Transform bulletSpawnPoint;
+
+    public Action OnDie;
 
     float turnDirection;
 
@@ -55,5 +58,19 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
+    }
+
+    private void Die()
+    {
+        OnDie?.Invoke();
+        gameObject.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            Die();
+        }
     }
 }
