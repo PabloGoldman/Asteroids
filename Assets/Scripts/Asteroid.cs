@@ -36,20 +36,23 @@ public class Asteroid : MonoBehaviour
         transform.eulerAngles = new Vector3(0.0f, 0.0f, Random.value * 360.0f);
     }
 
-    public void SetTrajectory(Vector2 trajectory)
+    public void SetVectorDirection(Vector2 trajectory)
     {
         rb.AddForce(trajectory * speed);
     }
 
     private void CreateSplitAsteroids()
     {
-        Vector2 position = transform.position;
-        position += Random.insideUnitCircle * 0.5f;
+        for (int i = 0; i < 2; i++)
+        {
+            Vector2 position = transform.position;
+            position += Random.insideUnitCircle * 0.5f;
 
-        Asteroid halfAsteroid = Instantiate(this, position, transform.rotation);
-        halfAsteroid.size *= 0.5f;
-        halfAsteroid.speed *= Random.Range(1.0f, 5.0f);
-        halfAsteroid.SetTrajectory(Random.insideUnitCircle.normalized);
+            Asteroid halfAsteroid = Instantiate(this, position, transform.rotation);
+            halfAsteroid.size *= 0.5f;
+            halfAsteroid.speed *= Random.Range(1.0f, 5.0f);
+            halfAsteroid.SetVectorDirection(Random.insideUnitCircle.normalized);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -58,7 +61,6 @@ public class Asteroid : MonoBehaviour
         {
             if (size * 0.5 >= minSize)
             {
-                CreateSplitAsteroids();
                 CreateSplitAsteroids();
             }
         }
