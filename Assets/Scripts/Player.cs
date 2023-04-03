@@ -34,6 +34,11 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(transform.up * thrustSpeed);
         }
+
+        if (turnDirection != 0)
+        {
+            rb.AddTorque(turnDirection * turnSpeed * -1);
+        }
     }
 
     bool IsThrusting()
