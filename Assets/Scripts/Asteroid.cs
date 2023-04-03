@@ -20,7 +20,6 @@ public class Asteroid : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
     private void Start()
     {
         transform.localScale = Vector3.one * size;
@@ -40,5 +39,30 @@ public class Asteroid : MonoBehaviour
     public void SetTrajectory(Vector2 trajectory)
     {
         rb.AddForce(trajectory * speed);
+    }
+
+    private void CreateSplitAsteroids()
+    {
+        Vector2 position = transform.position;
+        position += Random.insideUnitCircle * 0.5f;
+
+        Asteroid halfAsteroid = Instantiate(this, position, transform.rotation);
+        halfAsteroid.size *= 0.5f;
+        halfAsteroid.speed *= Random.Range(1.0f, 5.0f);
+        halfAsteroid.SetTrajectory(Random.insideUnitCircle.normalized);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            if (size * 0.5 >= minSize)
+            {
+                CreateSplitAsteroids();
+                CreateSplitAsteroids();
+            }
+        }
+
+        Destroy(gameObject);
     }
 }
