@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
     [SerializeField] float thrustSpeed = 1.0f;
     [SerializeField] float turnSpeed = 1.0f;
 
+    [SerializeField] Bullet bulletPrefab;
+    [SerializeField] GameObject bulletSpawnPoint;
+
     float turnDirection;
 
     Rigidbody2D rb;
@@ -16,16 +19,14 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         SetTurnDirection();
+
+        if (Input.GetButtonDown("Shoot"))
+        {
+            Shoot();
+        }
     }
 
     private void FixedUpdate()
@@ -41,13 +42,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    bool IsThrusting()
+    private bool IsThrusting()
     {
         return Input.GetAxisRaw("Vertical") > 0;
     }
 
-    void SetTurnDirection()
+    private void SetTurnDirection()
     {
         turnDirection = Input.GetAxisRaw("Horizontal") * turnSpeed;
+    }
+
+    private void Shoot()
+    {
+        Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
     }
 }
