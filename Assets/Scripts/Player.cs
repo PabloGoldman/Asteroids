@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] float turnSpeed = 1.0f;
 
     [SerializeField] Bullet bulletPrefab;
-    [SerializeField] GameObject bulletSpawnPoint;
+    [SerializeField] Transform bulletSpawnPoint;
 
     float turnDirection;
 
@@ -54,6 +54,6 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, transform.rotation);
+        Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
     }
 }
