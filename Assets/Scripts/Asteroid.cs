@@ -6,9 +6,14 @@ public class Asteroid : MonoBehaviour
 {
     Rigidbody2D rb;
 
-    float size = 1.0f;
-    [SerializeField] float minSize = 0.5f;
-    [SerializeField] float maxSize = 1.5f;
+    [HideInInspector] public float size = 1.0f;
+
+    [SerializeField] float speed = 20.0f;
+
+    public float minSize = 0.5f;
+    public float maxSize = 1.5f;
+
+    float lifeTime = 30.0f;
 
     private void Awake()
     {
@@ -16,23 +21,24 @@ public class Asteroid : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         transform.localScale = Vector3.one * size;
 
         rb.mass = size;
 
         SetRandomRotation();
+
+        Destroy(gameObject, lifeTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void SetRandomRotation()
+    private void SetRandomRotation()
     {
         transform.eulerAngles = new Vector3(0.0f, 0.0f, Random.value * 360.0f);
+    }
+
+    public void SetTrajectory(Vector2 trajectory)
+    {
+        rb.AddForce(trajectory * speed);
     }
 }
