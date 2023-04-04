@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed = 100.0f;
 
-    float lifeTime = 5.0f;
+    float lifeTime = 3.0f;
 
     Rigidbody2D rb;
 

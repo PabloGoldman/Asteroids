@@ -1,17 +1,40 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [SerializeField] Player player;
     [SerializeField] GameObject endGamePanel;
+    [SerializeField] TextMeshProUGUI scoreText;
 
-    void Start()
+    public int score;
+
+    private void Awake()
     {
-        player.OnDie += ShowEndGameScreen;
+        Instance = this;
     }
 
-    void ShowEndGameScreen()
+    private void Start()
+    {
+        player.OnDie += ShowEndGameScreen;
+        SetScore();
+    }
+
+    public void AddScore()
+    {
+        score++;
+        SetScore();
+    }
+
+    private void SetScore()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+    private void ShowEndGameScreen()
     {
         endGamePanel.SetActive(true);
     }
