@@ -20,6 +20,18 @@ public class WraparoundBehaviour : MonoBehaviour
         screenHeight = mainCamera.orthographicSize * 2f;
     }
 
+    private void Update()
+    {
+        if (!hasEnteredScreen)
+        {
+            CheckIfHasEnteredScreen();
+        }
+        else
+        {
+            CheckWraparound();
+        }
+    }
+
     private void CheckIfHasEnteredScreen()
     {
         Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
@@ -48,18 +60,6 @@ public class WraparoundBehaviour : MonoBehaviour
         else if (transform.position.y > screenHeight / 2f)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - screenHeight);
-        }
-    }
-
-    private void Update()
-    {
-        if (!hasEnteredScreen)
-        {
-            CheckIfHasEnteredScreen();
-        }
-        else
-        {
-            CheckWraparound();
         }
     }
 }
